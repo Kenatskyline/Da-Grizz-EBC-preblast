@@ -1,557 +1,256 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Da Grizz • Countdown + Anti-Excuse</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Da Grizz • Countdown + Anti-Excuse</title>
 
-  <style>
-    :root{
-      --bg:#0b0f1a;
-      --card:#111a2e;
-      --ink:#e8eefc;
-      --muted:#b9c4e6;
-      --line:#223055;
-      --accent:#4f8cff;
-      --good:#37d67a;
-      --warn:#ffcc66;
-      --bad:#ff5c7a;
-      --shadow: 0 20px 60px rgba(0,0,0,.55);
-    }
+<style>
+:root{
+  --ink:#e8eefc;
+  --muted:#b9c4e6;
+  --line:rgba(255,255,255,.18);
+}
+
 *{box-sizing:border-box}
+
 body{
   margin:0;
   min-height:100vh;
-  font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
   color:var(--ink);
 
   background:
-    linear-gradient(rgba(7,10,18,.88), rgba(7,10,18,.92)),
-    url("loop.png") center / cover no-repeat;
+    linear-gradient(rgba(7,10,18,.70), rgba(7,10,18,.70)),
+    url("loop.png") center / cover no-repeat fixed;
 
-  background-attachment: fixed;
   display:flex;
   align-items:center;
   justify-content:center;
   padding:24px;
 }
-    .wrap{ width:min(980px, 100%); display:grid; gap:18px; }
-    .hero{
-  background:rgba(17,26,46,.55);
-  border:1px solid rgba(255,255,255,.08);
+
+.wrap{
+  width:min(980px,100%);
+  display:grid;
+  gap:18px;
+}
+
+/* MAIN GLASS PANEL */
+.hero{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.15);
   border-radius:18px;
   padding:20px;
-  box-shadow:var(--shadow);
-  position:relative;
-  overflow:hidden;
-
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  box-shadow:0 20px 60px rgba(0,0,0,.55);
+  backdrop-filter:blur(20px) saturate(160%);
+  -webkit-backdrop-filter:blur(20px) saturate(160%);
 }
-    .top{
-      display:flex;
-      flex-wrap:wrap;
-      gap:14px;
-      align-items:flex-end;
-      justify-content:space-between;
-    }
-    h1{ margin:0; font-size: clamp(20px, 3vw, 30px); letter-spacing:.6px; }
-    .sub{ margin:6px 0 0; color:var(--muted); font-weight:500; }
-    .pill{
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-      padding:8px 12px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      background:rgba(8,12,22,.55);
-      color:var(--muted);
-      font-weight:600;
-      white-space:nowrap;
-    }
-    .grid{
-      margin-top:14px;
-      display:grid;
-      grid-template-columns: 1.15fr .85fr;
-      gap:14px;
-    }
-    @media (max-width: 820px){
-      .grid{grid-template-columns:1fr}
-    }
-    .card{
-      background: rgba(8,12,22,.25);
-backdrop-filter: blur(8px);
--webkit-backdrop-filter: blur(8px);
-      border:1px solid var(--line);
-      border-radius:16px;
-      padding:16px;
-    }
-    .label{
-      color:var(--muted);
-      font-weight:700;
-      letter-spacing:.4px;
-      font-size:13px;
-      text-transform:uppercase;
-    }
-    .ticker{
-      margin-top:10px;
-      font-variant-numeric: tabular-nums;
-      font-size: clamp(22px, 3.2vw, 36px);
-      font-weight:800;
-      letter-spacing: .8px;
-      padding:14px 14px;
-      border-radius:14px;
-      border:1px solid var(--line);
-      background:linear-gradient(180deg, rgba(17,26,46,.65), rgba(8,12,22,.65));
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-    }
-    .ticker small{
-      font-size:12px;
-      color:var(--muted);
-      font-weight:700;
-      letter-spacing:.4px;
-      text-transform:uppercase;
-    }
-    .status{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      background:rgba(0,0,0,.18);
-      font-size:12px;
-      color:var(--muted);
-      font-weight:800;
-      white-space:nowrap;
-    }
-    .dot{width:10px;height:10px;border-radius:50%;}
-    .dot.good{background:var(--good)}
-    .dot.warn{background:var(--warn)}
-    .dot.bad{background:var(--bad)}
-    .mono{
-      font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
-    }
 
-    form{ margin-top:12px; display:flex; gap:10px; }
-    input{
-      flex:1;
-      padding:12px 12px;
-      border-radius:12px;
-      border:1px solid var(--line);
-      background:rgba(0,0,0,.22);
-      color:var(--ink);
-      outline:none;
-      font-size:15px;
-    }
-    input::placeholder{color:rgba(185,196,230,.65)}
-    button{
-      padding:12px 14px;
-      border-radius:12px;
-      border:1px solid var(--line);
-      background:linear-gradient(180deg, var(--accent), #3b73db);
-      color:white;
-      font-weight:900;
-      letter-spacing:.3px;
-      cursor:pointer;
-      min-width:112px;
-    }
-    button:active{transform:translateY(1px)}
-    .roast{
-      margin-top:12px;
-      border-radius:14px;
-      border:1px dashed rgba(79,140,255,.55);
-      background:rgba(79,140,255,.08);
-      padding:12px 12px;
-      font-weight:750;
-      line-height:1.35;
-      white-space:pre-wrap;
-    }
-    .history{
-      margin-top:12px;
-      max-height:240px;
-      overflow:auto;
-      border-radius:14px;
-      border:1px solid var(--line);
-      background:rgba(0,0,0,.16);
-    }
-    .history ul{list-style:none; margin:0; padding:8px;}
-    .history li{
-      padding:10px 10px;
-      border-bottom:1px solid rgba(34,48,85,.55);
-      color:var(--muted);
-      line-height:1.25;
-      font-size:13px;
-    }
-    .history li:last-child{border-bottom:0}
-    .row{
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      margin-top:10px;
-      color:var(--muted);
-      font-size:13px;
-      font-weight:600;
-      flex-wrap:wrap;
-    }
-    .linkbtn{
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-      padding:8px 12px;
-      border-radius:12px;
-      border:1px solid var(--line);
-      background:rgba(0,0,0,.18);
-      color:var(--ink);
-      cursor:pointer;
-      font-weight:800;
-    }
-    .linkbtn:hover{border-color:rgba(79,140,255,.55)}
-    .footer{
-      color:rgba(185,196,230,.75);
-      font-size:12px;
-      text-align:center;
-      margin-top:10px;
-    }
+.top{
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:14px;
+}
 
-    /* --- Bear Flash Overlay --- */
-    #flashOverlay{
-      position: fixed;
-      inset: 0;
-      display: none;
-      place-items: center;
-      z-index: 9999;
-      background: rgba(0,0,0,.88);
-    }
-    #flashOverlay.show{
-      display: grid;
-      animation: flashFade .75s ease-out forwards;
-    }
-    #flashImg{
-      width: min(520px, 82vw);
-      height: auto;
-      filter: contrast(1.2) brightness(1.05);
-      transform: scale(1.02);
-    }
-    #flashText{
-      margin-top: 14px;
-      font-weight: 900;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: #fff;
-      opacity: .92;
-      text-shadow: 0 6px 24px rgba(0,0,0,.65);
-    }
-    @keyframes flashFade{
-      0%   { opacity: 0; transform: scale(1.00); }
-      10%  { opacity: 1; transform: scale(1.02); }
-      60%  { opacity: 1; }
-      100% { opacity: 0; }
-    }
-  </style>
+h1{
+  margin:0;
+  font-size:clamp(20px,3vw,30px);
+}
+
+.sub{
+  margin:6px 0 0;
+  color:var(--muted);
+}
+
+.pill{
+  padding:8px 12px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.08);
+}
+
+/* INNER CARDS */
+.card{
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:16px;
+  backdrop-filter:blur(16px) saturate(150%);
+  -webkit-backdrop-filter:blur(16px) saturate(150%);
+}
+
+.label{
+  font-size:13px;
+  font-weight:700;
+  color:var(--muted);
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+
+.ticker{
+  font-size:28px;
+  font-weight:800;
+}
+
+form{
+  display:flex;
+  gap:10px;
+  margin-top:10px;
+}
+
+input{
+  flex:1;
+  padding:12px;
+  border-radius:12px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.06);
+  color:white;
+}
+
+button{
+  padding:12px 14px;
+  border-radius:12px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.15);
+  color:white;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.roast{
+  margin-top:12px;
+  padding:12px;
+  border-radius:12px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.06);
+  white-space:pre-wrap;
+}
+
+/* BEAR FLASH */
+#flashOverlay{
+  position:fixed;
+  inset:0;
+  display:none;
+  place-items:center;
+  background:rgba(0,0,0,.9);
+  z-index:9999;
+}
+
+#flashOverlay.show{
+  display:grid;
+  animation:fade .8s forwards;
+}
+
+#flashImg{
+  width:min(520px,80vw);
+}
+
+@keyframes fade{
+  0%{opacity:0}
+  20%{opacity:1}
+  80%{opacity:1}
+  100%{opacity:0}
+}
+</style>
 </head>
 
 <body>
-  <div class="wrap">
-    <section class="hero">
-      <div class="top">
-        <div>
-          <h1>DA GRIZZ • How many miles can you reach?</h1>
-          <p class="sub">
-Running + elevation. 45 minutes. No cap. ⛰️
-<br><br>
-<strong>Leave coupons🧱 at home.</strong><br>
-Bring shoes👟 for pavement.<br>
-Headlamps🔦 are recommended.
-</p>
-        </div>
-        <div class="pill mono">05:30–06:15</div>
+
+<div class="wrap">
+  <section class="hero">
+    <div class="top">
+      <div>
+        <h1>DA GRIZZ • How many miles can you reach?</h1>
+        <p class="sub">
+          Running + elevation. 45 minutes. No cap. ⛰️<br><br>
+          Leave coupons 🧱 at home.<br>
+          Bring shoes 👟 for pavement.<br>
+          Headlamps 🔦 are recommended.
+        </p>
       </div>
+      <div class="pill">05:30–06:15</div>
+    </div>
 
-      <div class="grid">
-        <!-- Countdown -->
-        <div class="card">
-          <div class="label">Countdown to launch</div>
+    <div class="card">
+      <div class="label">Countdown to launch</div>
+      <div id="countdown" class="ticker">--:--:--:--</div>
+    </div>
 
-          <div class="ticker mono" aria-live="polite">
-            <div>
-              <small>02/21/26 05:30 (America/Chicago)</small>
-              <div id="countdown">--:--:--:--</div>
-            </div>
-            <div class="status">
-              <span id="dot" class="dot warn"></span>
-              <span id="statusText">Arming the bear…</span>
-            </div>
-          </div>
+    <div class="card">
+      <div class="label">Anti-excuse terminal</div>
+      <form id="excuseForm">
+        <input id="excuseInput" placeholder="Type your excuse..." />
+        <button>Roast me</button>
+      </form>
+      <div id="roastBox" class="roast" style="display:none;"></div>
+    </div>
+  </section>
+</div>
 
-          <div class="row">
-            <div>Target time locked to CST (UTC-6): <span class="mono">2026-02-21 11:30:00Z</span></div>
-          </div>
+<div id="flashOverlay">
+  <img id="flashImg" src="bear.jpeg" />
+</div>
 
-          <div class="row">
-            <button class="linkbtn" id="copyBlast" type="button">📋 Copy preblast</button>
-            <button class="linkbtn" id="resetRoasts" type="button">♻️ Reset roasts</button>
-          </div>
+<script>
+// COUNTDOWN
+const target = new Date("2026-02-21T11:30:00Z").getTime();
+function tick(){
+  const now = Date.now();
+  let diff = target - now;
+  if(diff <= 0){
+    document.getElementById("countdown").textContent = "GO TIME";
+    return;
+  }
+  const d = Math.floor(diff/(1000*60*60*24));
+  diff -= d*1000*60*60*24;
+  const h = Math.floor(diff/(1000*60*60));
+  diff -= h*1000*60*60;
+  const m = Math.floor(diff/(1000*60));
+  diff -= m*1000*60;
+  const s = Math.floor(diff/1000);
+  document.getElementById("countdown").textContent =
+    `${d}:${h.toString().padStart(2,"0")}:${m.toString().padStart(2,"0")}:${s.toString().padStart(2,"0")}`;
+}
+setInterval(tick,1000);
+tick();
 
-          <div class="footer">Host on GitHub Pages and drop the link in Slack.</div>
-        </div>
+// ROAST SYSTEM
+const roasts=[
+"That excuse has zero elevation gain.",
+"Cold? Run faster.",
+"You typed that with two thumbs.",
+"Your future self is embarrassed.",
+"The hill doesn’t care."
+"That excuse smells like Hank on taco tuesday"
+"it suck twice as less if you run twice as fast"
+"Thats why we call it Hard Commit and not Easy Commit"
+"Whats next?"
+"Quack Quack"
+"who cares, get grizzly"
+"there's punch and pie"
+"show this screenshot for a free hug"
+];
 
-        <!-- Anti-excuse -->
-        <div class="card">
-          <div class="label">Anti-excuse terminal</div>
+const form=document.getElementById("excuseForm");
+const input=document.getElementById("excuseInput");
+const box=document.getElementById("roastBox");
+const flash=document.getElementById("flashOverlay");
 
-          <form id="excuseForm" autocomplete="off">
-            <input id="excuseInput" maxlength="140"
-              placeholder="Type your excuse… (e.g., 'tired' or 'too cold')" />
-            <button type="submit">Roast me</button>
-          </form>
+form.addEventListener("submit",e=>{
+  e.preventDefault();
+  if(!input.value.trim())return;
 
-          <div id="roastBox" class="roast" style="display:none;"></div>
+  flash.classList.add("show");
+  setTimeout(()=>flash.classList.remove("show"),800);
 
-          <div class="row">
-            <div>Unique roasts remaining: <span class="mono" id="remaining">--</span></div>
-            <div>Entries: <span class="mono" id="entries">0</span></div>
-          </div>
+  const roast=roasts[Math.floor(Math.random()*roasts.length)];
+  box.style.display="block";
+  box.textContent=`Excuse received: "${input.value}"\n\n${roast}`;
+  input.value="";
+});
+</script>
 
-          <div class="history">
-            <ul id="history"></ul>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <!-- Bear Flash Overlay (put bear.jpeg in same folder as index.html) -->
-  <div id="flashOverlay" aria-hidden="true">
-    <img id="flashImg" src="bear.jpeg" alt="Da Grizz Bear" />
-    <div id="flashText">EXCUSE DETECTED</div>
-  </div>
-
-  <script>
-    // =========================
-    // 1) COUNTDOWN (CST locked)
-    // =========================
-    // 02/21/26 05:30 America/Chicago
-    // February = standard time => CST = UTC-6
-    // target UTC: 2026-02-21T11:30:00Z
-    const targetUTC = new Date("2026-02-21T11:30:00Z").getTime();
-
-    const cdEl = document.getElementById("countdown");
-    const statusText = document.getElementById("statusText");
-    const dot = document.getElementById("dot");
-
-    function pad(n){ return String(n).padStart(2,"0"); }
-
-    function setStatus(msLeft){
-      const minLeft = msLeft / 60000;
-      if (msLeft <= 0){
-        dot.className = "dot bad";
-        statusText.textContent = "GO TIME. NO EXCUSES.";
-        return;
-      }
-      if (minLeft <= 30){
-        dot.className = "dot bad";
-        statusText.textContent = "Lock in. Shoes on.";
-      } else if (minLeft <= 180){
-        dot.className = "dot warn";
-        statusText.textContent = "Warm up your lies.";
-      } else {
-        dot.className = "dot good";
-        statusText.textContent = "Countdown active.";
-      }
-    }
-
-    function tick(){
-      const now = Date.now();
-      let diff = targetUTC - now;
-
-      setStatus(diff);
-
-      if (diff <= 0){
-        cdEl.textContent = "00:00:00:00";
-        return;
-      }
-
-      const days = Math.floor(diff / (24*3600*1000)); diff -= days*24*3600*1000;
-      const hrs  = Math.floor(diff / (3600*1000));     diff -= hrs*3600*1000;
-      const mins = Math.floor(diff / (60*1000));       diff -= mins*60*1000;
-      const secs = Math.floor(diff / 1000);
-
-      cdEl.textContent = `${pad(days)}:${pad(hrs)}:${pad(mins)}:${pad(secs)}`;
-    }
-
-    setInterval(tick, 250);
-    tick();
-
-    // =========================
-    // 2) ANTI-EXCUSE (no repeats)
-    // + Bear flash before roast
-    // =========================
-    const ROASTS = [
-      "That excuse has the structural integrity of wet toilet paper. Post anyway.",
-      "You typed that with two thumbs — you can run with two legs.",
-      "If your alarm clock can wake up, so can you.",
-      "That’s not an excuse, that’s a bedtime story for grown men.",
-      "Your comfort zone called. I sent it to voicemail.",
-      "That excuse is softer than a new pair of gloves.",
-      "Interesting… but the hill does not accept appeals.",
-      "Your future self just rolled its eyes.",
-      "If you can scroll, you can ruck. If you can ruck, you can run.",
-      "That excuse would not survive even one burpee.",
-      "We’re not asking for perfect — we’re asking for present.",
-      "That excuse is eligible for immediate demotion to 'whining'.",
-      "Your legs are filing a complaint for underuse.",
-      "That’s cute. The mountain is still showing up.",
-      "If it’s cold, run faster. Science.",
-      "That excuse has 'DM me the notes' energy.",
-      "The only thing ‘too tired’ is that excuse.",
-      "You can’t PR your couch.",
-      "Tell your excuse to meet us at 5:30. It can do the warmup.",
-      "That excuse is why stairs feel personal."
-    ];
-
-    const excuseForm = document.getElementById("excuseForm");
-    const excuseInput = document.getElementById("excuseInput");
-    const roastBox = document.getElementById("roastBox");
-    const historyEl = document.getElementById("history");
-    const remainingEl = document.getElementById("remaining");
-    const entriesEl = document.getElementById("entries");
-    const flashOverlay = document.getElementById("flashOverlay");
-
-    const LS_USED = "daGrizz_usedRoasts_v1";
-    const LS_HISTORY = "daGrizz_excuseHistory_v1";
-
-    let used = new Set(JSON.parse(localStorage.getItem(LS_USED) || "[]"));
-    let history = JSON.parse(localStorage.getItem(LS_HISTORY) || "[]");
-
-    // preload bear image so the flash is instant
-    (function preloadBear(){
-      const img = new Image();
-      img.src = "bear.jpeg";
-    })();
-
-    function save(){
-      localStorage.setItem(LS_USED, JSON.stringify([...used]));
-      localStorage.setItem(LS_HISTORY, JSON.stringify(history));
-    }
-
-    function updateMeta(){
-      remainingEl.textContent = String(Math.max(0, ROASTS.length - used.size));
-      entriesEl.textContent = String(history.length);
-    }
-
-    function escapeHtml(s){
-      return String(s)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-    }
-
-    function renderHistory(){
-      historyEl.innerHTML = "";
-      const recent = history.slice(-30).reverse();
-      for (const item of recent){
-        const li = document.createElement("li");
-        li.innerHTML =
-          `<span class="mono">${escapeHtml(item.time)}</span> — <strong>${escapeHtml(item.excuse)}</strong><br>${escapeHtml(item.roast)}`;
-        historyEl.appendChild(li);
-      }
-    }
-
-    function nextRoast(){
-      const available = ROASTS.filter(r => !used.has(r));
-      if (available.length === 0){
-        // no repeats achieved; reshuffle by clearing used set
-        used = new Set();
-        localStorage.setItem(LS_USED, JSON.stringify([]));
-        return "You used every roast. Deck reshuffled. Still… post anyway.";
-      }
-      const pick = available[Math.floor(Math.random() * available.length)];
-      used.add(pick);
-      return pick;
-    }
-
-    function sleep(ms){
-      return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
-    async function flashBear(){
-      // reset animation (in case user submits quickly)
-      flashOverlay.classList.remove("show");
-      void flashOverlay.offsetWidth; // force reflow
-      flashOverlay.classList.add("show");
-      await sleep(750);
-      flashOverlay.classList.remove("show");
-    }
-
-    excuseForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const excuse = excuseInput.value.trim();
-      if (!excuse) return;
-
-      // hide roast until after flash
-      roastBox.style.display = "none";
-
-      await flashBear();
-
-      const roast = nextRoast();
-
-      roastBox.style.display = "block";
-      roastBox.textContent = `Excuse received: “${excuse}”\n\n${roast}`;
-
-      const time = new Date().toLocaleString([], {
-        month:"2-digit", day:"2-digit", year:"2-digit",
-        hour:"2-digit", minute:"2-digit"
-      });
-
-      history.push({ time, excuse, roast });
-      save();
-      updateMeta();
-      renderHistory();
-
-      excuseInput.value = "";
-      excuseInput.focus();
-    });
-
-    // =========================
-    // 3) Buttons
-    // =========================
-    document.getElementById("copyBlast").addEventListener("click", async () => {
-      const text =
-`DA GRIZZ • Running + Elevation Challenge
-⏰ 5:30–6:15
-⛰ 45 minutes. No cap.
-❓How many miles can you reach?
-Bring a headlamp if needed + bring a teammate.
-
-(Use the Anti-Excuse terminal if you start typing excuses.)`;
-
-      try{
-        await navigator.clipboard.writeText(text);
-        dot.className = "dot good";
-        statusText.textContent = "Preblast copied. Now post it.";
-        setTimeout(() => tick(), 900);
-      }catch{
-        alert("Clipboard blocked by browser. Copy manually:\n\n" + text);
-      }
-    });
-
-    document.getElementById("resetRoasts").addEventListener("click", () => {
-      if (!confirm("Reset used roasts? (History stays)")) return;
-      used = new Set();
-      localStorage.setItem(LS_USED, JSON.stringify([]));
-      updateMeta();
-    });
-
-    // init UI
-    updateMeta();
-    renderHistory();
-  </script>
 </body>
 </html>

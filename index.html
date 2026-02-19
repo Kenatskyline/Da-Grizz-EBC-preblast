@@ -37,14 +37,17 @@ body{
 }
     .wrap{ width:min(980px, 100%); display:grid; gap:18px; }
     .hero{
-      background:linear-gradient(180deg, rgba(17,26,46,.95), rgba(12,18,34,.92));
-      border:1px solid var(--line);
-      border-radius:18px;
-      padding:20px;
-      box-shadow:var(--shadow);
-      position:relative;
-      overflow:hidden;
-    }
+  background:rgba(17,26,46,.55);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:18px;
+  padding:20px;
+  box-shadow:var(--shadow);
+  position:relative;
+  overflow:hidden;
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
     .top{
       display:flex;
       flex-wrap:wrap;
